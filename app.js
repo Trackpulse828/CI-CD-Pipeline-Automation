@@ -7,6 +7,11 @@ app.get("/", (req, res) => {
   res.send("CI/CD working 🚀");
 });
 
-app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+// Health check (important for deployment platforms)
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
