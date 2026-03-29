@@ -7,16 +7,20 @@ pipeline {
                 sh 'docker build -t cicd-demo .'
             }
         }
+
         stage('Test') {
             steps {
-                sh 'echo "Test passed ✅"'
+                sh 'echo "Tests passed ✅"'
             }
         }
+
         stage('Deploy') {
             steps {
-                sh 'docker run --rm cicd-demo'
+                sh '''
+                docker rm -f cicd-demo-container || true
+                docker run -d -p 10000:10000 --name cicd-demo-container cicd-demo
+                '''
             }
         }
     }
 }
-
